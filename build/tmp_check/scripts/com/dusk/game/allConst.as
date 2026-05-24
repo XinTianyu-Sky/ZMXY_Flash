@@ -7,17 +7,15 @@ package com.dusk.game
       
       public static var NEW_VER_INFO:Object = new Object();
       
-      public static const GAME_VERSION:Number = 0.86;
-
-      public static const AUTHOR:String = "不用思考的蠢驴";
+      public static const GAME_VERSION:Number = 0.85;
       
-      public static const IS_DEBUG:Boolean = true;
+      public static const IS_DEBUG:Boolean = false;
       
-      public static const NEED_DEBUGGER:Boolean = true;
+      public static const NEED_DEBUGGER:Boolean = false;
       
       public static const USE_MOUSE_UI:Boolean = false;
       
-      public static const NEED_MASK:Boolean = false;
+      public static const NEED_MASK:Boolean = true;
       
       public static const NEED_FRAME:Boolean = true;
       

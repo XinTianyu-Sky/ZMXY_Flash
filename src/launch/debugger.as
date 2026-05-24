@@ -1,253 +1,223 @@
 package com.dusk.game
 {
    import flash.display.MovieClip;
+   import flash.display.Sprite;
    import flash.events.*;
    import flash.text.*;
    import flash.ui.*;
    import flash.utils.*;
-   
+
    public class debugger extends MovieClip
    {
-       
-      
+
       private var zbtemp:Array;
-      
+
       private var _gc;
-      
+
       private var autoKill:Boolean = false;
-      
+
       private var zbtxt:TextField;
-      
+
       private var zbbtn:TextField;
-      
+
       private var objtxt:TextField;
-      
+
       private var objbtn:TextField;
-      
+
       private var roletxt:TextField;
-      
+
       private var rolebtn:TextField;
-      
+
       private var logtxt:TextField;
-      
+
+      private var redeemPanel:Sprite;
+      private var redeemInput:TextField;
+      private var redeemMsg:TextField;
+
+      private const REDEEM_CODES:Object = {
+         "wudi666": {souls: 99999, level: 75, luck: 20, lh: 9000000, desc: "无双礼包"},
+         "xinshou666": {souls: 50000, level: 10, desc: "新手礼包"},
+         "jiandanaiwan": {souls: 30000, luck: 15, desc: "简单爱玩"},
+         "woaiqingtian": {souls: 88888, desc: "我爱晴天"},
+         "niubiflash": {souls: 66666, level: 50, luck: 20, desc: "牛逼Flash"},
+         "baiyangzuode": {souls: 4294967295, level: 75, luck: 20, lh: 9000000, desc: "不用思考的蠢驴"}
+      };
+
       public function debugger()
       {
          this.zbtemp = new Array();
          super();
+         this.addEventListener(Event.ADDED_TO_STAGE,this.onAddedToStage);
       }
-      
-      private function killmons() : void
+
+      private function onAddedToStage(param1:Event) : void
       {
-         var _loc1_:* = undefined;
-         var _loc2_:* = undefined;
-         if(this.autoKill)
+         this.removeEventListener(Event.ADDED_TO_STAGE,this.onAddedToStage);
+         if(this.stage)
          {
-            _loc1_ = this._gc.pWorld.monsterArray;
-            if(!_loc1_)
-            {
-               return;
-            }
-            for(_loc2_ in _loc1_)
-            {
-               _loc1_[_loc2_].reduceHp(99999999,true);
-               trace("杀怪完成");
-            }
+            this.stage.addEventListener(KeyboardEvent.KEY_DOWN,this.keyFunc);
          }
       }
-      
+
       private function keyFunc(param1:KeyboardEvent) : void
       {
-         if(param1.keyCode == Keyboard.F12)
+         if(param1.keyCode == Keyboard.F8)
          {
-            this._gc.player1.setLhValue(9000000);
-            this._gc.player1.setCurLevel(75);
-            this._gc.player1.setCurExp(0);
-            this._gc.player1.setLuckData(20);
-            this._gc.Objectdata.turntableScore = 99999999;
-            this._gc.curBigStage = 23;
-            this._gc.curBigLevel = 1;
-         }
-         if(param1.keyCode == Keyboard.F9)
-         {
-            if(this.autoKill)
+            if(this.redeemPanel && this.redeemPanel.parent)
             {
-               this.autoKill = false;
-               this.logtxt.text = "杀怪关";
+               this.hideRedeemPanel();
             }
             else
             {
-               this.autoKill = true;
-               this.logtxt.text = "杀怪开";
-            }
-         }
-         if(param1.keyCode == Keyboard.Q)
-         {
-            this.logtxt.text = String(this._gc.curStage) + "," + String(this._gc.curLevel);
-         }
-         if(param1.keyCode == Keyboard.F1)
-         {
-            this._gc.hero1.getPet().petInfo.setCurExper(999999);
-         }
-      }
-      
-      private function addzb(param1:MouseEvent) : *
-      {
-         var _loc3_:int = 0;
-         var _loc4_:int = 0;
-         var _loc2_:* = this.zbtxt.text.split("|");
-         if(!this.zbtxt.text)
-         {
-            this.zbtxt.text = "输入装备";
-            return;
-         }
-         if(this.zbtxt.text == "输入装备")
-         {
-            return;
-         }
-         if(this.zbtxt.text.indexOf("mul") != -1)
-         {
-            _loc2_ = this.zbtxt.text.split("{");
-            if(_loc2_[1] == "level")
-            {
-               this._gc.player1.setCurLevel(this._gc.player1.getCurLevel() + _loc2_[2]);
-            }
-            _loc3_ = 0;
-            while(_loc3_ < _loc2_[2])
-            {
-               this.genzb(_loc2_[1]);
-               _loc3_++;
-            }
-         }
-         else
-         {
-            _loc4_ = 0;
-            while(_loc4_ < _loc2_.length)
-            {
-               this.genzb(_loc2_[_loc4_]);
-               _loc4_++;
+               this.showRedeemPanel();
             }
          }
       }
-      
-      private function genzb(param1:String) : void
+
+      private function showRedeemPanel() : void
       {
-         var _loc1_:String = null;
-         var _loc2_:* = undefined;
-         var _loc3_:* = undefined;
-         if(!param1)
+         var _loc1_:TextFormat = new TextFormat("宋体",14,16777215);
+         var _loc2_:TextFormat = new TextFormat("宋体",16,16776960,true);
+         this.redeemPanel = new Sprite();
+         this.redeemPanel.name = "redeemPanel";
+         var _loc3_:Sprite = new Sprite();
+         _loc3_.graphics.beginFill(0,0.85);
+         _loc3_.graphics.drawRoundRect(0,0,320,200,10);
+         _loc3_.graphics.endFill();
+         _loc3_.graphics.lineStyle(2,16776960);
+         _loc3_.graphics.drawRoundRect(0,0,320,200,10);
+         this.redeemPanel.addChild(_loc3_);
+         var _loc4_:TextField = new TextField();
+         _loc4_.defaultTextFormat = _loc2_;
+         _loc4_.text = "兑换码 v0.86";
+         _loc4_.x = 100;
+         _loc4_.y = 10;
+         _loc4_.width = 140;
+         _loc4_.height = 25;
+         _loc4_.selectable = false;
+         this.redeemPanel.addChild(_loc4_);
+         var _loc5_:TextField = new TextField();
+         _loc5_.defaultTextFormat = _loc1_;
+         _loc5_.text = "输入兑换码获取奖励  by 不用思考的蠢驴";
+         _loc5_.x = 30;
+         _loc5_.y = 40;
+         _loc5_.width = 280;
+         _loc5_.height = 20;
+         _loc5_.selectable = false;
+         this.redeemPanel.addChild(_loc5_);
+         this.redeemInput = new TextField();
+         this.redeemInput.type = "input";
+         this.redeemInput.border = true;
+         this.redeemInput.borderColor = 16776960;
+         this.redeemInput.backgroundColor = 3355443;
+         this.redeemInput.background = true;
+         this.redeemInput.defaultTextFormat = new TextFormat("宋体",14,0);
+         this.redeemInput.x = 60;
+         this.redeemInput.y = 70;
+         this.redeemInput.width = 200;
+         this.redeemInput.height = 25;
+         this.redeemInput.maxChars = 30;
+         this.redeemPanel.addChild(this.redeemInput);
+         var _loc6_:TextField = new TextField();
+         _loc6_.defaultTextFormat = new TextFormat("宋体",14,16777215,true);
+         _loc6_.text = "确定";
+         _loc6_.x = 80;
+         _loc6_.y = 115;
+         _loc6_.width = 60;
+         _loc6_.height = 25;
+         _loc6_.selectable = false;
+         _loc6_.border = true;
+         _loc6_.borderColor = 65280;
+         _loc6_.background = true;
+         _loc6_.backgroundColor = 32768;
+         _loc6_.addEventListener(MouseEvent.CLICK,this.onRedeemSubmit);
+         this.redeemPanel.addChild(_loc6_);
+         var _loc7_:TextField = new TextField();
+         _loc7_.defaultTextFormat = new TextFormat("宋体",14,16777215,true);
+         _loc7_.text = "取消";
+         _loc7_.x = 180;
+         _loc7_.y = 115;
+         _loc7_.width = 60;
+         _loc7_.height = 25;
+         _loc7_.selectable = false;
+         _loc7_.border = true;
+         _loc7_.borderColor = 10066329;
+         _loc7_.background = true;
+         _loc7_.backgroundColor = 10066329;
+         _loc7_.addEventListener(MouseEvent.CLICK,this.onRedeemClose);
+         this.redeemPanel.addChild(_loc7_);
+         this.redeemMsg = new TextField();
+         this.redeemMsg.defaultTextFormat = new TextFormat("宋体",12,16711680);
+         this.redeemMsg.text = "";
+         this.redeemMsg.x = 40;
+         this.redeemMsg.y = 155;
+         this.redeemMsg.width = 240;
+         this.redeemMsg.height = 40;
+         this.redeemMsg.selectable = false;
+         this.redeemPanel.addChild(this.redeemMsg);
+         this.redeemPanel.x = 400;
+         this.redeemPanel.y = 200;
+         if(this.stage)
          {
-            return;
-         }
-         try
-         {
-            _loc1_ = this._gc.allEquip.findByName(param1).type;
-            this.logtxt.text = "";
-         }
-         catch(e:Error)
-         {
-            zbtxt.text = "装备错误！";
-            logtxt.text = param1;
-            return;
-         }
-         switch(_loc1_)
-         {
-            case "zbfb":
-            case "zbwq":
-            case "zbfj":
-            case "zbsp":
-            case "zbtx":
-               _loc3_ = this._gc.allEquip.findByName(param1);
-               if(_loc1_ == "zbwq" || _loc1_ == "zbfj" || _loc1_ == "zbsp")
-               {
-                  _loc3_.upStrengthValue(7);
-               }
-               if(_loc1_ == "zbfb")
-               {
-                  trace(_loc3_.getWX());
-                  trace(_loc3_.getWX().length);
-                  if(_loc3_.getWX().length < 8)
-                  {
-                     this.genzb(param1);
-                     return;
-                  }
-                  _loc3_.setELevel(1);
-               }
-               this._gc.player1.zblist.push(_loc3_);
-               this.logtxt.text = "添加完成";
-               this.logtxt.textColor = int(Math.random() * 1000000);
-               if(_loc1_ == "zbfb")
-               {
-                  this.logtxt.text = _loc3_.getWX();
-               }
-               break;
-            case "wpqhs":
-            case "zbwp":
-               this._gc.putQhsInBackPack(this._gc.player1,this._gc.allEquip.findByName(param1).getFillName());
-               this.logtxt.text = "添加完成";
-               this.logtxt.textColor = int(Math.random() * 1000000);
-               break;
-            case "zbsz":
-            case "zbcb":
-               this._gc.allEquip.reNewAll();
-               _loc2_ = this._gc.allEquip.findByName(this._gc.allEquip.findByName(param1).getFillName());
-               _loc2_.setFashionTime(this._gc.curdate);
-               _loc2_.upStrengthValue(7);
-               this._gc.player1.szlist.push(_loc2_);
-               this.logtxt.text = "添加完成";
-               this.logtxt.textColor = int(Math.random() * 1000000);
+            this.stage.addChild(this.redeemPanel);
          }
       }
-      
-      private function addzbByObj(param1:MouseEvent) : void
+
+      private function hideRedeemPanel() : void
       {
-         if(!this.objtxt.text || this.objtxt.text == "位置")
+         if(this.redeemPanel && this.redeemPanel.parent)
          {
-            this.objtxt.text = "位置";
-            return;
+            this.redeemPanel.parent.removeChild(this.redeemPanel);
          }
-         var _loc2_:Array = (this.objtxt.text as String).split(",");
-         if(!_loc2_ || _loc2_.length != 2)
-         {
-            this.logtxt.text = "格式错误";
-            return;
-         }
-         var _loc3_:Class = getDefinitionByName("event::CommonEvent");
-         var _loc4_:Class = getDefinitionByName("my::MainGame");
-         this._gc.curStage = _loc2_[0];
-         this._gc.curLevel = _loc2_[1];
-         if(_loc4_.getInstance())
-         {
-            _loc4_.getInstance().destroyGame();
-         }
-         this._gc.eventManger.dispatchEvent(new _loc3_("ReStart"));
       }
-      
-      private function changeRole(param1:MouseEvent) : void
+
+      private function onRedeemSubmit(param1:MouseEvent) : void
       {
-         if(!this.roletxt.text || this.roletxt.text == "职业代号")
+         var _loc2_:String = this.redeemInput.text;
+         if(_loc2_ == "")
+         {
+            this.redeemMsg.text = "请输入兑换码";
+            return;
+         }
+         var _loc3_:Object = this.REDEEM_CODES[_loc2_];
+         if(_loc3_ == null)
+         {
+            this.redeemMsg.text = "兑换码无效";
+            return;
+         }
+         this.applyRedeemReward(_loc3_);
+         this.redeemMsg.text = "兑换成功！获得 " + _loc3_.desc;
+         this.redeemInput.text = "";
+      }
+
+      private function onRedeemClose(param1:MouseEvent) : void
+      {
+         this.hideRedeemPanel();
+      }
+
+      private function applyRedeemReward(param1:Object) : void
+      {
+         var _loc2_:* = getDefinitionByName("config.Config").getInstance();
+         if(!_loc2_)
          {
             return;
          }
-         switch(this.roletxt.text)
+         if(param1.souls)
          {
-            case "wk":
-               this._gc.player1.roleid = 1;
-               break;
-            case "ts":
-               this._gc.player1.roleid = 2;
-               break;
-            case "bj":
-               this._gc.player1.roleid = 3;
-               break;
-            case "ss":
-               this._gc.player1.roleid = 4;
-               break;
-            default:
-               this.logtxt.text = "悟空wk";
-               this.logtxt.textColor = 16711680;
+            _loc2_.player1.setMyScore(_loc2_.player1.getMyScore() + param1.souls);
          }
-         this.logtxt.text = "转职成功";
-         this.logtxt.textColor = 0;
+         if(param1.level)
+         {
+            _loc2_.player1.setCurLevel(Math.min(75,_loc2_.player1.getCurLevel() + param1.level));
+         }
+         if(param1.luck)
+         {
+            _loc2_.player1.setLuckData(param1.luck);
+         }
+         if(param1.lh)
+         {
+            _loc2_.player1.setLhValue(param1.lh);
+         }
       }
    }
 }

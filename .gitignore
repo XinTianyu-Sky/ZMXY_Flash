@@ -1,5 +1,8 @@
 # Build artifacts
 dist/
+dist_min/
+release/
+*.zip
 build/temp_swf/
 build/temp_swf_decode/
 
