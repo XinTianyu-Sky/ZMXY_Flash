@@ -1,0 +1,21 @@
+# Build artifacts
+dist/
+build/temp_swf/
+build/temp_swf_decode/
+
+# Decompiled intermediate output
+decompiled/
+
+# JPEXS distribution (keep only the jar)
+tools/ffdec_15.0.0/
+tools/ffdec_26/
+tools/ffdec_26.zip
+
+# Original SWF backups
+original/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
