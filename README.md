@@ -50,17 +50,18 @@ BaseGameSence → 按关卡名动态加载 bg/monster 类
 
 ## 关键数据文件
 
-| 文件 | 行数 | 内容 |
-|------|------|------|
+| 文件                     | 行数 | 内容                   |
+| ------------------------ | ---- | ---------------------- |
 | src/core/AllEquipment.as | 1750 | 全部装备/道具/宝石数值 |
-| src/core/Config.as | 1025 | 游戏全局状态管理 |
-| src/core/User.as | ~300 | 玩家数据模型 |
-| src/core/MainGame.as | ~800 | 战斗引擎 |
-| src/launch/allConst.as | 33 | 版本号/调试开关/密钥 |
+| src/core/Config.as       | 1025 | 游戏全局状态管理       |
+| src/core/User.as         | ~300 | 玩家数据模型           |
+| src/core/MainGame.as     | ~800 | 战斗引擎               |
+| src/launch/allConst.as   | 33   | 版本号/调试开关/密钥   |
 
 ## SWF 解密说明
 
 游戏 SWF 文件头被置换加密：
+
 - Asset SWF: 用 zmxy_decoder_v2.exe (pivot=96)
 - launch.swf: 无需解密 (标准 CWS 头)
 
@@ -69,3 +70,5 @@ BaseGameSence → 按关卡名动态加载 bg/monster 类
 ## 版本
 
 基于 造梦西游3再续天庭 v0.85 (dusk/夕眼 开发)
+
+[变更记录](docs/CHANGELOG.md)
