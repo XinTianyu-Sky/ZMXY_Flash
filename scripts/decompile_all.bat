@@ -3,7 +3,7 @@ chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 set FFDEC=java -jar D:\GitHub\XinTianyu-Sky\ZMXY_Flash\tools\ffdec_15.0.0\ffdec.jar
-set GAME_DIR=D:\software\Game\zmxy3\造梦西游3再续天庭0.85
+set GAME_DIR=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\game
 set OUT_DIR=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\decompiled
 
 echo ==========================================

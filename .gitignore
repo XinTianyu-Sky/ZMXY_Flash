@@ -17,6 +17,9 @@ tools/ffdec_26.zip
 # Original SWF backups
 original/
 
+# Game runtime files (copy from distribution, not committed)
+game/
+
 # IDE
 .vscode/
 .idea/

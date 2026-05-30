@@ -5,7 +5,7 @@ setlocal
 :: pack.bat - Package full distributable version
 :: Usage: pack.bat [output_zip_name]
 
-set GAME_DIR=D:\software\Game\zmxy3\造梦西游3再续天庭0.85
+set GAME_DIR=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\game
 set PACK_NAME=%1
 if "%PACK_NAME%"=="" set PACK_NAME=zmxy3_full.zip
 set PACK_DIR=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\release

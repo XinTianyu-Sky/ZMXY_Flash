@@ -4,7 +4,7 @@ set -e
 
 FFDEC="java -jar D:/GitHub/XinTianyu-Sky/ZMXY_Flash/tools/ffdec_15.0.0/ffdec.jar"
 DECODER="D:/GitHub/XinTianyu-Sky/ZMXY_Flash/build/zmxy_decoder_v2.exe"
-GAME="D:/software/Game/zmxy3/造梦西游3再续天庭0.85"
+GAME="D:/GitHub/XinTianyu-Sky/ZMXY_Flash/game"
 OUT="D:/GitHub/XinTianyu-Sky/ZMXY_Flash/decompiled"
 TEMP="D:/GitHub/XinTianyu-Sky/ZMXY_Flash/build/temp_swf_decode"
 

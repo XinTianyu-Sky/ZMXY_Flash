@@ -7,7 +7,7 @@ setlocal enabledelayedexpansion
 :: Example: inject.bat launch.swf com.dusk.game.allConst src\launch\allConst.as
 
 set FFDEC=java -jar D:\GitHub\XinTianyu-Sky\ZMXY_Flash\tools\ffdec_15.0.0\ffdec.jar
-set GAME_DIR=D:\software\Game\zmxy3\造梦西游3再续天庭0.85
+set GAME_DIR=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\game
 set DECODER=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\build\zmxy_decoder_v2.exe
 set TEMP=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\build\temp_inject
 set OUTPUT_DIR=D:\GitHub\XinTianyu-Sky\ZMXY_Flash\dist

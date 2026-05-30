@@ -6,6 +6,7 @@
 
 ```
 ZMXY_Flash/
+├── game/                   # 游戏本体运行文件 (不入 git，从发布包拷贝)
 ├── src/                    # 整理后的可编辑源码
 │   ├── launch/             # 启动器 (MainLoad, allConst, fileHandler)
 │   ├── core/               # 核心逻辑 (Config, AllEquipment, User, MainGame)
